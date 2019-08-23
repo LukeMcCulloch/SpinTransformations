@@ -44,7 +44,7 @@
 #ifndef SPINXFORM_CMWRAPPER_H
 #define SPINXFORM_CMWRAPPER_H
 
-#include <cholmod.h>
+#include <suitesparse/cholmod.h>
 #include <map>
 
 // Object-oriented wrapper for CHOLMOD sparse matrix format.
