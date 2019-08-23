@@ -31,7 +31,8 @@ DDG_OPENGL_LIBS       = -lGL -lGLU -lglut -lGLEW -lX11
 TARGET = spinxform
 OBJS = CMWrapper.o EigenSolver.o Image.o LinearSolver.o Mesh.o Quaternion.o QuaternionMatrix.o Vector.o Viewer.o main.o
 
-UNAME = $(shell uname)
+# UNAME = $(shell uname)
+UNAME := $(shell uname -s)
 
 ifeq ($(UNAME), Darwin)
    $(info ************  Darwin ************)
@@ -40,21 +41,21 @@ ifeq ($(UNAME), Darwin)
    LDFLAGS = -Wall -Werror -pedantic -ansi -O3
    LIBS = -framework GLUT -framework OpenGL -framework Accelerate
 else
-   # ifeq ($(UNAME_S),Linux)
-   $(info ************  Linux ************)
-   # Linux
-   CFLAGS = -O3 -Wall -Werror -ansi -pedantic  $(DDG_INCLUDE_PATH) -I./include -I./src
-   LFLAGS = -O3 -Wall -Werror -ansi -pedantic $(DDG_LIBRARY_PATH)
-   # CFLAGS = -O3 -Wall -Werror -ansi -pedantic  -I./include -I./src
-   # LFLAGS = -O3 -Wall -Werror -ansi -pedantic 
-   LIBS = $(DDG_OPENGL_LIBS) $(DDG_SUITESPARSE_LIBS) $(DDG_BLAS_LIBS)
-#    else
-#       # Windows / Cygwin
-#       $(info ************  windows ************)
-#       CFLAGS  = -Wall -Werror -pedantic -ansi -O3 -Iinclude -I/usr/include/opengl
-#       LDFLAGS = -Wall -Werror -pedantic -ansi -O3 -L/usr/lib/w32api
-#       LIBS = -lglut32 -lglu32 -lopengl32
-#    endif
+   ifeq ($(UNAME),Linux)
+      $(info ************  Linux ************)
+      # Linux
+      CFLAGS = -O3 -Wall -Werror -ansi -pedantic  $(DDG_INCLUDE_PATH) -I./include -I./src
+      LFLAGS = -O3 -Wall -Werror -ansi -pedantic $(DDG_LIBRARY_PATH)
+      # CFLAGS = -O3 -Wall -Werror -ansi -pedantic  -I./include -I./src
+      # LFLAGS = -O3 -Wall -Werror -ansi -pedantic 
+      LIBS = $(DDG_OPENGL_LIBS) $(DDG_SUITESPARSE_LIBS) $(DDG_BLAS_LIBS)
+   else
+      # Windows / Cygwin
+      $(info ************  windows ************)
+      CFLAGS  = -Wall -Werror -pedantic -ansi -O3 -Iinclude -I/usr/include/opengl
+      LDFLAGS = -Wall -Werror -pedantic -ansi -O3 -L/usr/lib/w32api
+      LIBS = -lglut32 -lglu32 -lopengl32
+   endif
 endif
 CHOLMOD_LIBS = -lm -lamd -lcamd -lcolamd -lccolamd -lcholmod -lspqr -lmetis
 
