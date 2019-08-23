@@ -1,20 +1,61 @@
+##########################################################################################
+
+# Specify library locations here (add or remove "#" marks to comment/uncomment lines for your platform)
+
+# Mac OS X
+# DDG_INCLUDE_PATH      =
+# DDG_LIBRARY_PATH      =
+# DDG_BLAS_LIBS         = -framework Accelerate
+# DDG_SUITESPARSE_LIBS  = -lspqr -lumfpack -lcholmod -lmetis -lcolamd -lccolamd -lcamd -lamd -ltbb -lm -lsuitesparseconfig
+# DDG_OPENGL_LIBS       = -framework OpenGL -framework GLUT
+
+# # Linux 
+# modifying includes to /usr/local/include .. suitesparse, etc.
+DDG_INCLUDE_PATH      = 
+DDG_LIBRARY_PATH      = 
+DDG_BLAS_LIBS         = -llapack -lblas -lgfortran 
+DDG_SUITESPARSE_LIBS  = -lspqr -lcholmod -lcolamd -lccolamd -lcamd -lamd -lm -lumfpack -lamd #-lmetis 
+DDG_OPENGL_LIBS       = -lGL -lGLU -lglut -lGLEW -lX11
+
+# # Windows / Cygwin
+# DDG_INCLUDE_PATH      = -I/usr/include/opengl -I/usr/include/suitesparse
+# DDG_LIBRARY_PATH      = -L/usr/lib/w32api -L/usr/lib/suitesparse
+# DDG_BLAS_LIBS         = -llapack -lblas
+# DDG_SUITESPARSE_LIBS  = -lspqr -lcholmod -lcolamd -lccolamd -lcamd -lamd -lm
+# DDG_OPENGL_LIBS       = -lglut32 -lglu32 -lopengl32
+
+########################################################################################
+
+
+
 TARGET = spinxform
 OBJS = CMWrapper.o EigenSolver.o Image.o LinearSolver.o Mesh.o Quaternion.o QuaternionMatrix.o Vector.o Viewer.o main.o
 
 UNAME = $(shell uname)
 
 ifeq ($(UNAME), Darwin)
+   $(info ************  Darwin ************)
    # Mac OS X
    CFLAGS  = -Wall -Werror -pedantic -ansi -O3 -Iinclude
    LDFLAGS = -Wall -Werror -pedantic -ansi -O3
    LIBS = -framework GLUT -framework OpenGL -framework Accelerate
 else
-   # Windows / Cygwin
-   CFLAGS  = -Wall -Werror -pedantic -ansi -O3 -Iinclude -I/usr/include/opengl
-   LDFLAGS = -Wall -Werror -pedantic -ansi -O3 -L/usr/lib/w32api
-   LIBS = -lglut32 -lglu32 -lopengl32
+   # ifeq ($(UNAME_S),Linux)
+   $(info ************  Linux ************)
+   # Linux
+   CFLAGS = -O3 -Wall -Werror -ansi -pedantic  $(DDG_INCLUDE_PATH) -I./include -I./src
+   LFLAGS = -O3 -Wall -Werror -ansi -pedantic $(DDG_LIBRARY_PATH)
+   # CFLAGS = -O3 -Wall -Werror -ansi -pedantic  -I./include -I./src
+   # LFLAGS = -O3 -Wall -Werror -ansi -pedantic 
+   LIBS = $(DDG_OPENGL_LIBS) $(DDG_SUITESPARSE_LIBS) $(DDG_BLAS_LIBS)
+#    else
+#       # Windows / Cygwin
+#       $(info ************  windows ************)
+#       CFLAGS  = -Wall -Werror -pedantic -ansi -O3 -Iinclude -I/usr/include/opengl
+#       LDFLAGS = -Wall -Werror -pedantic -ansi -O3 -L/usr/lib/w32api
+#       LIBS = -lglut32 -lglu32 -lopengl32
+#    endif
 endif
-
 CHOLMOD_LIBS = -lm -lamd -lcamd -lcolamd -lccolamd -lcholmod -lspqr -lmetis
 
 
