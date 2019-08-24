@@ -57,7 +57,7 @@ else
       LIBS = -lglut32 -lglu32 -lopengl32
    endif
 endif
-CHOLMOD_LIBS = -lm -lamd -lcamd -lcolamd -lccolamd -lcholmod -lspqr -lmetis
+CHOLMOD_LIBS = -lm -lamd -lcamd -lcolamd -lccolamd -lcholmod -lspqr # -lmetis
 
 
 all: $(TARGET)

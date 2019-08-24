@@ -15,7 +15,10 @@
 #include "Mesh.h"
 #include "Image.h"
 #include "Quaternion.h"
-#include <GLUT/glut.h>
+
+//#ifdef mac
+//#include <GLUT/glut.h>
+#include <GL/glut.h>
 
 class Viewer
 {
