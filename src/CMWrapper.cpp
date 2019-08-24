@@ -162,8 +162,8 @@ namespace cm
       // build compressed matrix (note that EntryMap stores entries in column-major order)
       double* pr = (double*) A->x;
       double* pi = (double*) A->z;
-      UF_long* ir = (UF_long*) A->i;
-      UF_long* jc = (UF_long*) A->p;
+      SuiteSparse_long* ir = (SuiteSparse_long*) A->i;
+      SuiteSparse_long* jc = (SuiteSparse_long*) A->p;
       int i = 0;
       int j = -1;
       for( EntryMap::const_iterator e = data.begin(); e != data.end(); e++ )
